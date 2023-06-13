@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+    <div class="card">
+        <div class="card-header">
+            <strong>{{ sales_invoice.customer }}</strong>
+        </div>
+        <div class="card-body">
+            {% for article in articles %}
+                <p class="card-text"><strong>Article: </strong>{{ article.name }}</p>
+            {% endfor %}
+
+            <p class="card-text"><strong>Invoice Date: </strong>{{ sales_invoice.invoice_date }}</p>
+            <p class="card-text"><strong>Quantity: </strong>{{ sales_invoice.quantity }}</p>
+            <p class="card-text"><strong>Total Price: </strong>{{ sales_invoice.total_price }}</p>
+            <p class="card-text"><strong>Payment Method: </strong>{{ sales_invoice.payment_method }}</p>
+            <p class="card-text"><strong>ID: </strong>{{ sales_invoice.id }}</p>
+        </div>
+    </div>
+
+    <br><br>
+    <a href="{% url 'home' %}" class="btn btn-secondary">Back</a>
+    <a href="{% url 'delete-invoice' sales_invoice.id %}" class="btn btn-danger">Delete</a>
+    <a href="{% url 'update-invoice' sales_invoice.id %}" class="btn btn-secondary">Update</a>
+{% endblock %}

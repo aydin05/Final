@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from .forms import SignUpForm
+from .forms import SignUpForm, AddInvoiceForm
 from .models import SalesInvoice, Article, Customer
 
 
@@ -50,8 +50,48 @@ def register_user(request):
 
 def sales_invoices(request, pk):
     if request.user.is_authenticated:
-        sales_invoices = SalesInvoice.objects.get(id=pk)
-        return render(request, 'sales_invoice.html', {'sales_invoices': sales_invoices})
+        sales_invoice = SalesInvoice.objects.get(id=pk)
+        articles = sales_invoice.articles.all()
+        return render(request, 'sales_invoice.html', {'sales_invoice': sales_invoice, 'articles': articles})
     else:
         messages.success(request, "You Must Be Logged In To View That Page")
+        return redirect('home')
+
+
+def delete_invoice(request, pk):
+    if request.user.is_authenticated:
+        delete_it = SalesInvoice.objects.get(id=pk)
+        delete_it.delete()
+        messages.success(request, 'Invoice has been removed!')
+        return redirect('home')
+    else:
+        messages.success(request, "You Must Be Logged In To View That Page")
+        return redirect('home')
+
+
+def add_invoice(request):
+    form = AddInvoiceForm(request.POST or None)
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            if form.is_valid():
+                add_invoice = form.save()
+                messages.success(request, "Invoice has been created!")
+                return redirect('home')
+        return render(request, 'add_invoice.html', {'form': form})
+    else:
+        messages.success(request, "You Must Be Logged In!")
+        return redirect('home')
+
+
+def update_invoice(request, pk):
+    if request.user.is_authenticated:
+        current_invoice = SalesInvoice.objects.get(id=pk)
+        form = AddInvoiceForm(request.POST or None, instance=current_invoice)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Invoice Has Been Updated!")
+            return redirect('home')
+        return render(request, 'update_invoice.html', {'form': form})
+    else:
+        messages.success(request, "You Must Be Logged In!")
         return redirect('home')

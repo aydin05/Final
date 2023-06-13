@@ -17,19 +17,20 @@
                 </thead>
                 <tbody>
                     {% if sales_invoices %}
-                    {% for sales_invoice in sales_invoices %}
-                        {% for article in articles %}
+                            {% for sales_invoice in sales_invoices %}
                             <tr>
-                                <td>{{ article.name }}</td>
+                                <td>{% for article in sales_invoice.articles.all %}
+                                {{ article.name }}{% if not forloop.last %}, {% endif %}
+                                {% endfor %}
+                                </td>
                                 <td>{{ sales_invoice.invoice_date }}</td>
                                 <td>{{ sales_invoice.quantity }}</td>
                                 <td>{{ sales_invoice.total_price }}</td>
                                 <td>{{ sales_invoice.payment_method }}</td>
                                 <td>{{ sales_invoice.customer }}</td>
-                                <td>{{ sales_invoice.id }}</td>
+                                <td><a href="{% url 'sales-invoices' sales_invoice.id %}">{{ sales_invoice.id }}</a></td>
                             </tr>
-                        {% endfor %}
-                    {% endfor %}
+                            {% endfor %}
 
                 {% endif %}
                 </tbody>
