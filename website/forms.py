@@ -1,7 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
-from .models import SalesInvoice
+from .models import SalesInvoice, Article
 
 
 class SignUpForm(UserCreationForm):
@@ -48,3 +48,9 @@ class AddInvoiceForm(forms.ModelForm):
     # quantity =
     # total_price =
     # payment_method =
+
+
+class AddArticleForm(forms.ModelForm):
+    class Meta:
+        model = Article
+        fields = ['name', 'price']

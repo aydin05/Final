@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="col-md-6 offset-md-3">
+        <h1>Articles</h1>
+
+
+    <table class="table table-striped table-hover table-bordered">
+                <thead class="table-dark">
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">ID</th>
+                </tr>
+                </thead>
+                <tbody>
+                    {% if articles %}
+                    {% for article in articles %}
+                            <tr>
+
+                                <td>{{ article.name }}</td>
+                                <td>{{ article.price }}</td>
+                                <td><a href="{% url 'article' article.article_id %}">{{ article.article_id }}</a></td>
+                            </tr>
+                    {% endfor %}
+                    {% endif %}
+                </tbody>
+            </table>
+    <a href="{% url 'home' %}" class="btn btn-secondary">Back</a>
+    </div>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="col-md-6 offset-md-3">
+        <h1>Article</h1>
+        <div class="card">
+            <div class="card-body">
+                <div class="card">
+
+                    <div class="card-header">
+                        <strong>{{ articles.name }}</strong>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text"><strong>Invoice Date: </strong>{{ articles.name }}</p>
+                        <p class="card-text"><strong>Price: </strong>{{ articles.price }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <br><br>
+    <a href="{% url 'home' %}" class="btn btn-secondary">Back</a>
+    <a href="{% url 'update-article' articles.article_id %}" class="btn btn-secondary">Update</a>
+    </div>
+{% endblock %}
