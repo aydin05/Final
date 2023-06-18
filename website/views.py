@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from .forms import SignUpForm, AddInvoiceForm, AddArticleForm
+from .forms import SignUpForm, AddInvoiceForm, AddArticleForm, AddCustomerForm
 from .models import SalesInvoice, Article, Customer
 
 
@@ -69,6 +69,17 @@ def delete_invoice(request, pk):
         return redirect('home')
 
 
+def delete_customer(request, pk):
+    if request.user.is_authenticated:
+        delete_it = Customer.objects.get(customer_id=pk)
+        delete_it.delete()
+        messages.success(request, 'Customer has been removed!')
+        return redirect('home')
+    else:
+        messages.success(request, "You Must Be Logged In To View That Page")
+        return redirect('home')
+
+
 def add_invoice(request):
     form = AddInvoiceForm(request.POST or None)
     if request.user.is_authenticated:
@@ -78,6 +89,34 @@ def add_invoice(request):
                 messages.success(request, "Invoice has been created!")
                 return redirect('home')
         return render(request, 'add_invoice.html', {'form': form})
+    else:
+        messages.success(request, "You Must Be Logged In!")
+        return redirect('home')
+
+
+def add_customer(request):
+    form = AddCustomerForm(request.POST or None)
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            if form.is_valid():
+                add_customer = form.save()
+                messages.success(request, "Customer has been created!")
+                return redirect('home')
+        return render(request, 'add_customer.html', {'form': form})
+    else:
+        messages.success(request, "You Must Be Logged In!")
+        return redirect('home')
+
+
+def update_customer(request, pk):
+    if request.user.is_authenticated:
+        current_customer = Customer.objects.get(customer_id=pk)
+        form = AddCustomerForm(request.POST or None, instance=current_customer)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Customer Has Been Updated!")
+            return redirect('home')
+        return render(request, 'update_customer.html', {'form': form})
     else:
         messages.success(request, "You Must Be Logged In!")
         return redirect('home')
@@ -94,6 +133,20 @@ def update_invoice(request, pk):
         return render(request, 'update_invoice.html', {'form': form})
     else:
         messages.success(request, "You Must Be Logged In!")
+        return redirect('home')
+
+
+def customers(request):
+    customers = Customer.objects.all()
+    return render(request, 'customers.html', {'customers': customers})
+
+
+def customer(request, pk):
+    if request.user.is_authenticated:
+        customers = Customer.objects.get(customer_id=pk)
+        return render(request, 'customer.html', {'customers': customers})
+    else:
+        messages.success(request, "You Must Be Logged In To View That Page")
         return redirect('home')
 
 

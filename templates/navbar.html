@@ -9,13 +9,13 @@
 
           {% if user.is_authenticated %}
               <li class="nav-item">
+                  <a class="nav-link" href="{% url 'customers' %}">Customers</a>
+              </li>
+              <li class="nav-item">
                   <a class="nav-link" href="{% url 'home' %}">Invoices</a>
               </li>
               <li class="nav-item">
                   <a class="nav-link" href="{% url 'articles' %}">Articles</a>
-              </li>
-              <li class="nav-item">
-                  <a class="nav-link" href="{% url 'add-invoice' %}">Add Invoice</a>
               </li>
               <li class="nav-item">
                   <a class="nav-link" href="{% url 'logout' %}">Logout</a>
