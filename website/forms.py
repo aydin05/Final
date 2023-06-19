@@ -47,7 +47,7 @@ class AddCustomerForm(forms.ModelForm):
 class AddInvoiceForm(forms.ModelForm):
     class Meta:
         model = SalesInvoice
-        exclude = ['invoice_date']
+        exclude = ['invoice_date', 'total_price']
     # customer = forms.CharField()
     # articles =
     # invoice_date =

@@ -25,7 +25,7 @@
                                 </td>
                                 <td>{{ sales_invoice.invoice_date }}</td>
                                 <td>{{ sales_invoice.quantity }}</td>
-                                <td>{{ sales_invoice.total_price }}</td>
+                                <td>{{ sales_invoice.articles_total_price }}</td>
                                 <td>{{ sales_invoice.payment_method }}</td>
                                 <td>{{ sales_invoice.customer }}</td>
                                 <td><a href="{% url 'sales-invoices' sales_invoice.id %}">{{ sales_invoice.id }}</a></td>

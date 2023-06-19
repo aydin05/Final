@@ -3,12 +3,12 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from .forms import SignUpForm, AddInvoiceForm, AddArticleForm, AddCustomerForm
 from .models import SalesInvoice, Article, Customer
+from django.db.models import Sum, F
 
 
 def home(request):
-    sales_invoices = SalesInvoice.objects.all()
+    sales_invoices = SalesInvoice.objects.all().annotate(articles_total_price=Sum(F('articles__price') * F('quantity')))
     articles = Article.objects.all()
-
     # Check to see if logging in
     if request.method == 'POST':
         username = request.POST['username']
@@ -52,6 +52,8 @@ def sales_invoices(request, pk):
     if request.user.is_authenticated:
         sales_invoice = SalesInvoice.objects.get(id=pk)
         articles = sales_invoice.articles.all()
+        for article in articles:
+            article.total_price = article.price * sales_invoice.quantity
         return render(request, 'sales_invoice.html', {'sales_invoice': sales_invoice, 'articles': articles})
     else:
         messages.success(request, "You Must Be Logged In To View That Page")

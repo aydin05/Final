@@ -13,7 +13,9 @@
 
             <p class="card-text"><strong>Invoice Date: </strong>{{ sales_invoice.invoice_date }}</p>
             <p class="card-text"><strong>Quantity: </strong>{{ sales_invoice.quantity }}</p>
-            <p class="card-text"><strong>Total Price: </strong>{{ sales_invoice.total_price }}</p>
+            {% for article in articles %}
+                <p class="card-text"><strong>Article: </strong>{{ article.total_price }}</p>
+            {% endfor %}
             <p class="card-text"><strong>Payment Method: </strong>{{ sales_invoice.payment_method }}</p>
             <p class="card-text"><strong>ID: </strong>{{ sales_invoice.id }}</p>
         </div>

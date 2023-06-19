@@ -31,7 +31,7 @@ class SalesInvoice(models.Model):
     articles = models.ManyToManyField(Article)
     invoice_date = models.DateField(auto_now_add=True)
     quantity = models.PositiveIntegerField(default=0)
-    total_price = models.DecimalField(max_length=10, decimal_places=2, max_digits=10)
+    total_price = models.DecimalField(max_length=10, decimal_places=2, max_digits=10, null=True)
     payment_method = models.CharField(max_length=20, choices=PAYMENT_METHOD_CHOICES)
 
     def __str__(self):
